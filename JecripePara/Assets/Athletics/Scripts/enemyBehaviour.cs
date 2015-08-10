@@ -5,7 +5,6 @@ public class enemyBehaviour : MonoBehaviour {
 
 	public Rigidbody rig;
 	public float velocidade, velfrente, vellado, posidepois,x1;
-	public bool rota;
 	static public float tempocorrida;
 	public int sorteio;
 	public float x;
@@ -41,7 +40,6 @@ public class enemyBehaviour : MonoBehaviour {
 		x = referencia.position.x;
 		x1 = referencia2.position.x;
 		tempocorrida = 0;
-		rota = false;
 
 	}
 	void Anima(){
@@ -71,7 +69,7 @@ public class enemyBehaviour : MonoBehaviour {
 		} else {
 			
 			if(transform.position.x < x){
-				rota = false;
+	
 				if (transform.position.z <= 17f) {
 					transform.position = new Vector3 (transform.position.x, transform.position.y, 2.5f);
 					transform.rotation = Quaternion.Euler (new Vector3 (0, 270, 0));
@@ -86,7 +84,7 @@ public class enemyBehaviour : MonoBehaviour {
 			else{
 				Rotaciona (referencia);
 				MovimentaCurva ();
-				rota = true;
+
 			}
 		}
 	}

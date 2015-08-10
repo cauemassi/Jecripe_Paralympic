@@ -6,15 +6,16 @@ public class playerBehaviour2 : MonoBehaviour
 {
 	
 	public Rigidbody rig;
-	public float velocidade, tempocomeça, x, x1, velocidadeanimacao, vellado, velfrente, tempoabaixa, n,m, tempotermina;
+	public float velocidade, tempocomeça, x, x1, velocidadeanimacao,  tempoabaixa,n,m, tempotermina;
 	public GUIText tela, numeroApertar, teste;
 	public Text tempo;
-	public bool pronto, esquerda, direita, transformavelocidade, rota, abaixa, start;
+	public bool pronto, esquerda, direita, transformavelocidade, rota, abaixa, start, fim;
 	
 	AthleticsSounds Sounds;
 	
 	static public bool começa, termina, perdeu;
-	static public float tempocorrida;
+	static public float tempocorrida,vellado, velfrente;
+	static public Vector3 velocidadeparaguia;
 	public Animator animator;
 	public Transform referencia, referencia2;
 	GameObject startButton;
@@ -39,6 +40,7 @@ public class playerBehaviour2 : MonoBehaviour
 		start = false;
 		n = 0.5f;
 		m = 0.0075f;
+		fim = false;
 		
 		Sounds = GameObject.Find ("Sounds").GetComponent<AthleticsSounds>();
 		
@@ -109,14 +111,26 @@ public class playerBehaviour2 : MonoBehaviour
 
 			if (transform.position.x < x) {
 				rota = false;
-				if (transform.position.z <= 17f) {
-					transform.position = new Vector3 (transform.position.x, transform.position.y, 11.8f);
+				if (transform.position.z <= 19f) {
+					if(transform.position.z <= 16.5f){
+						rig.velocity = new Vector3(rig.velocity.x,0,1*Time.deltaTime);
+					}
+					else{
+						rig.velocity = new Vector3(rig.velocity.x,0,0);
+					}
 					transform.rotation = Quaternion.Euler (new Vector3 (0, 270, 0));
 					vellado = 0;
 					velfrente = 0;
+					fim = true;
 				} else {
-					transform.position = new Vector3 (transform.position.x, transform.position.y, 102.7f);
+					if(transform.position.z >= 97f){
+						transform.Translate (Vector3.right * Time.deltaTime);
+					}
+					else{
+						rig.velocity = new Vector3(rig.velocity.x,0,0);
+					}
 					transform.rotation = Quaternion.Euler (new Vector3 (0, 90, 0));
+				
 
 				}
 			} else {
@@ -163,9 +177,11 @@ public class playerBehaviour2 : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		print (começa);
+		//float d = Vector3.Distance (transform.position, referencia2.position); Mede distancia do player ao objeto referencia
+		//print ();
+		velocidadeparaguia = rig.velocity;
 		Anima ();
-		if (transform.position.x < -46 && transform.position.x > -50 && transform.position.z > 50) {
+		if (transform.position.x < -46 && transform.position.x > -50 && transform.position.z > 50 && fim) {
 			termina = true;
 			tempotermina += Time.deltaTime;
 			if(tempotermina > 0.5f ){
@@ -190,6 +206,7 @@ public class playerBehaviour2 : MonoBehaviour
 			waitButton.SetActive (false);
 			if (!start) {
 				if (Input.GetKeyDown (KeyCode.UpArrow)) {
+					rig.velocity += -transform.forward *10;
 					velfrente = n * 18;
 					vellado = m * 18;
 					start = true;
