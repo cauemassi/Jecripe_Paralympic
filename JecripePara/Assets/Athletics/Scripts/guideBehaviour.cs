@@ -30,7 +30,7 @@ public class guideBehaviour : MonoBehaviour {
 
 	void MovimentaCurva(){
 
-		rig.velocity = playerBehaviour2.velfrente * -transform.forward * 1.11f + playerBehaviour2.vellado  * transform.right *1.11f;
+		rig.velocity = playerBehaviour2.velfrente * -transform.forward * 1.11f + playerBehaviour2.vellado  * transform.right *1.1101f;
 	}
 
 	void Anima ()
